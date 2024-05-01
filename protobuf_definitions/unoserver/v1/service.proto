@@ -1,0 +1,70 @@
+syntax = "proto3";
+package unoserver.v1;
+
+// A service to communicate with a headless LibreOffice process.
+service UnoServerService {
+    // Converts a file from one type to another.
+    rpc Convert (ConvertRequest) returns (ConvertResponse) {}
+
+    // Compare two files and convert the result from one type to another.
+    rpc Compare (CompareRequest) returns (CompareResponse) {}
+}
+
+// You must specify the inpath or the indata, and you must specify and outpath or a convert_to.
+message ConvertRequest {
+    // A path (on the local hard disk) to a file to be converted.
+    optional string inpath = 1;
+
+    // A byte array containing the file content to be converted.
+    optional bytes indata = 2;
+
+    // A path (on the local hard disk) to store the result, or null, in which case
+    // the content of the converted file will be returned as a byte array.
+    optional string outpath = 3;
+
+    // The extension of the desired file type, ie "pdf", "xlsx", etc.
+    string convert_to = 4;
+
+    // The name of the export filter to use for conversion. If empty, it is auto-detected.
+    optional string filtername = 5;
+
+    // A list of output filter options as strings, in a "OptionName=Value" format.
+    repeated string filter_options = 6;
+
+    // Updates the index before conversion
+    bool update_index = 7;
+
+    // The name of the input filter, ie "writer8", "PowerPoint 3", etc.
+    optional string infiltername = 8;
+}
+
+message ConvertResponse {
+    // A byte array containing the converted file content.
+    optional bytes outdata = 1;
+}
+
+message CompareRequest {
+    // A path (on the local hard disk) to a file to be compared.
+    optional string oldpath = 1;
+
+    // A byte array containing the file content to be compared.
+    optional bytes olddata = 2;
+
+    // A path (on the local hard disk) to a file to be compared against.
+    optional string newpath = 3;
+
+    // A byte array containing the file content to be compared against.
+    optional bytes newdata = 4;
+
+    // A path (on the local hard disk) to store the result, or null, in which case
+    // the content of the converted file will be returned as a byte array.
+    optional string outpath = 5;
+
+    // The extension of the desired file type, ie "pdf", "xlsx", etc.
+    optional string filetype = 6;
+}
+
+message CompareResponse {
+    // A byte array containing the compared file content.
+    optional bytes outdata = 1;
+}

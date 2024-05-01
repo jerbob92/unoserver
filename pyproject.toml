@@ -25,6 +25,11 @@ license = {text = "MIT"}
 urls = {Homepage = "https://github.com/unoconv/unoserver"}
 dynamic = ["readme"]
 requires-python = ">= 3.8"
+dependencies = [
+    "grpcio-health-checking",
+    "asyncio",
+    "grpcio",
+]
 
 [project.optional-dependencies]
 devenv = [
@@ -35,6 +40,7 @@ devenv = [
     "pyroma",
     "check-manifest",
     "zest.releaser",
+    "grpcio-tools",
 ]
 
 [project.scripts]

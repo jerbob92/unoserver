@@ -35,6 +35,8 @@ test: devenv
 release: devenv
 	$(bin_dir)/fullrelease
 
+protobuf: devenv
+	$(bin_dir)/python3 -m grpc_tools.protoc -I$(root_dir)/protobuf_definitions --python_out=src --pyi_out=src --grpc_python_out=src $(root_dir)/protobuf_definitions/unoserver/v1/service.proto
 
 clean:
 	rm -rf ve build htmlcov

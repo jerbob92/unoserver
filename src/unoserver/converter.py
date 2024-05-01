@@ -183,6 +183,8 @@ class UnoConverter:
                     f"There is no '{infiltername}' import filter. Available filters: {sorted(infilters.keys())}"
                 )
 
+        import_path = None
+
         if inpath:
             # TODO: Verify that inpath exists and is openable, and that outdir exists, because uno's
             # exceptions are completely useless!
@@ -203,6 +205,11 @@ class UnoConverter:
             old_stream.initialize((uno.ByteSequence(indata),))
             input_props += (PropertyValue(Name="InputStream", Value=old_stream),)
             import_path = "private:stream"
+
+        if import_path is None:
+            raise ValueError(
+                f"No input given, please give an input path or input data"
+            )
 
         document = self.desktop.loadComponentFromURL(
             import_path, "_default", 0, input_props
